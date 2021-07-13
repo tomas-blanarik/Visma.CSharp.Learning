@@ -1,0 +1,67 @@
+Session #1	Objects, classes, structs, interfaces, enums
+	- access modifiers (encapsulation)
+	- constants
+	- readonly fields
+	- constructors
+	- 'this' keyword
+	- properties
+	- methods
+	- primitive types - int, float, double
+	- boxing vs unboxing
+	- reference vs. value types
+	
+Session #2	Inheritance
+	- basic inheritance rules
+	- abstract classes
+	- implementing interfaces
+	- virtual methods
+	- overriding methods
+	- overloading methods
+	- 'base' keyword
+	- partial classes
+	
+Session #3	Collections in C#
+	- lists, arrays, linkedlist
+	- dictionary
+	- hashset
+	- queue, stack
+	- introduction to generics
+	generic programming
+	
+Session #4	Error handling using try-catch-finally
+	- finally block
+	- multiple catch blocks
+	- creating custom exceptions
+	- throw; vs. throw ex;
+	
+Session #5	using pattern
+	- namespaces
+	- IDisposable
+	- working with Streams
+	extension methods
+	anonymous methods and objects
+	design patterns #1 - singleton
+	
+Session #6	ref vs out
+	is vs. as vs. direct casting
+	basic reflection
+	linq
+	annotations / attributes
+	
+Session #7	async programming
+	- Thread vs. Task
+	- ConfigureAwait
+	- async void
+	- synchronization
+	
+Session #8	design patterns #2
+	- builder pattern
+	- factory pattern
+	- dependency injection pattern
+	- mvc pattern
+	static constructor
+	SOLID - basics
+	
+Session #9	Visual Studio
+	working with the IDE
+	project setup
