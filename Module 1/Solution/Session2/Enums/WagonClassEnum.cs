@@ -2,9 +2,9 @@
 {
     public enum WagonClassEnum
     {
-        One,
-        Two,
-        Three,
-        Four
+        First = 1,
+        Second,
+        Third,
+        Fourth
     }
 }
