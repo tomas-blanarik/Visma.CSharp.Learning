@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using VismaIdella.PersonApi.Application.Dtos;
 
 namespace VismaIdella.PersonApi.Application.Domain
 {
@@ -16,5 +17,16 @@ namespace VismaIdella.PersonApi.Application.Domain
         [Required]
         public int TodoListId { get; set; }
         public TodoList TodoList { get; set; }
+
+        public TodoListItemDto ToDto()
+        {
+            return new TodoListItemDto
+            {
+                Id = Id,
+                Name = Name,
+                Description = Description,
+                DueDate = DueDate
+            };
+        }
     }
 }

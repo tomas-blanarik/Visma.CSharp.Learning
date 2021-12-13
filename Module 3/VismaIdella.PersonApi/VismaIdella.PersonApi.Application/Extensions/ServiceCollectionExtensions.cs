@@ -1,4 +1,5 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using EasyCaching.Core.Configurations;
+using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,23 +16,23 @@ namespace VismaIdella.PersonApi.Application.Extensions
         {
             services.AddEFSecondLevelCache(options =>
             {
-                options.UseMemoryCacheProvider()
+                options.UseEasyCachingCoreProvider("Redis")
                     .DisableLogging(false)
                     .SkipCachingResults(result => result.Value == null || (result.Value is EFTableRows rows && rows.RowsCount == 0));
             });
 
-            //services.AddEasyCaching(opts =>
-            //{
-            //    opts.UseRedis(config =>
-            //    {
-            //        config.EnableLogging = true;
-            //        config.DBConfig.AllowAdmin = true;
-            //        config.DBConfig.SyncTimeout = 10000;
-            //        config.DBConfig.AsyncTimeout = 10000;
-            //        config.DBConfig.Endpoints.Add(new ServerEndPoint(configuration.GetConnectionString("Redis"), 6379));
-            //        config.DBConfig.Database = 0;
-            //    }, "Redis");
-            //});
+            services.AddEasyCaching(opts =>
+            {
+                opts.UseRedis(config =>
+                {
+                    config.EnableLogging = true;
+                    config.DBConfig.AllowAdmin = true;
+                    config.DBConfig.SyncTimeout = 10000;
+                    config.DBConfig.AsyncTimeout = 10000;
+                    config.DBConfig.Endpoints.Add(new ServerEndPoint(configuration.GetConnectionString("Redis"), 6379));
+                    config.DBConfig.Database = 0;
+                }, "Redis");
+            });
 
             services.AddDbContext<ApplicationContext>((provider, options) =>
             {

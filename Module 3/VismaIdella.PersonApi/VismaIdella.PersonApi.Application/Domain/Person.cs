@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using VismaIdella.PersonApi.Application.Dtos;
 
 namespace VismaIdella.PersonApi.Application.Domain
@@ -24,7 +25,8 @@ namespace VismaIdella.PersonApi.Application.Domain
                 Id = Id,
                 Name = Name,
                 Email = Email,
-                Address = Address
+                Address = Address,
+                Lists = Lists.Select(x => x.ToLightDto()).ToList()
             };
         }
     }

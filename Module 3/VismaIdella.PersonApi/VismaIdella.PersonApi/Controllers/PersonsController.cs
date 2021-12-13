@@ -57,6 +57,7 @@ namespace VismaIdella.PersonApi.Controllers
         [HttpPut("{personId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateAsync(
             [FromRoute] int personId,
@@ -85,13 +86,15 @@ namespace VismaIdella.PersonApi.Controllers
         #region List Operations
 
         [HttpGet("{personId:int}/lists")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TodoListDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetListsAsync(
             [FromRoute] int personId,
+            [FromServices] ITodoListService listService,
             CancellationToken cancellationToken)
         {
-            return Ok();
+            var lists = await listService.GetAsync(x => x.PersonId == personId, includeItems: true, cancellationToken);
+            return Ok(lists.ConvertAll(x => x.ToDto()));
         }
 
         #endregion

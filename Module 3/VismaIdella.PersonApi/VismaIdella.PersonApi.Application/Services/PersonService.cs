@@ -1,7 +1,6 @@
 ﻿using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VismaIdella.PersonApi.Application.Database;
@@ -38,6 +37,7 @@ namespace VismaIdella.PersonApi.Application.Services
         public async Task DeleteAsync(int personId, bool deleteLists = true, CancellationToken cancellationToken = default)
         {
             var person = await _context.Persons
+                .Include(x => x.Lists)
                 .SingleOrDefaultAsync(x => x.Id == personId, cancellationToken);
 
             if (person == null)
@@ -45,17 +45,16 @@ namespace VismaIdella.PersonApi.Application.Services
                 throw new EntityNotFoundException(typeof(Person), personId);
             }
 
-            var personLists = await _context.Lists
-                .Where(x => x.PersonId == person.Id)
-                .ToListAsync(cancellationToken);
-
             if (deleteLists)
             {
-                personLists.ForEach(list => _context.Lists.Remove(list));
+                foreach (var list in person.Lists)
+                {
+                    _context.Lists.Remove(list);
+                }
             }
             else
             {
-                if (personLists.Count != 0)
+                if (person.Lists.Count > 0)
                 {
                     throw new EntityConflictException(typeof(Person), typeof(TodoList));
                 }
@@ -77,6 +76,7 @@ namespace VismaIdella.PersonApi.Application.Services
         {
             var person = await _context.Persons
                 .AsNoTracking()
+                .Include(x => x.Lists)
                 .Cacheable()
                 .SingleOrDefaultAsync(x => x.Id == personId, cancellationToken);
 
@@ -93,7 +93,7 @@ namespace VismaIdella.PersonApi.Application.Services
             var personToUpdate = await _context.Persons
                 .SingleOrDefaultAsync(x => x.Id == person.Id, cancellationToken);
 
-            if (person == null)
+            if (personToUpdate == null)
             {
                 throw new EntityNotFoundException(typeof(Person), person.Id);
             }

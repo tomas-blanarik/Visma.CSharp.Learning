@@ -11,6 +11,6 @@ namespace VismaIdella.PersonApi.Application.Database
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<TodoList> Lists { get; set; }
-        public DbSet<TodoListItem> ListItem { get; set; }
+        public DbSet<TodoListItem> ListItems { get; set; }
     }
 }
